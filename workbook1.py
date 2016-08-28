@@ -17,17 +17,43 @@ while choice != "Q":
             line= line.strip("\n")
             items_list = line.split(',')
             shopping_items.append(items_list[0])
-            item_costs.append(items_list[1])
-            priority_num.append(items_list[2])
+            item_costs.append(float(items_list[1]))
+            priority_num.append(int(items_list[2]))
             is_completed.append(items_list[3])
-    #print(shopping_items)
-    #print(item_costs)
-    #print(priority_num)
-    #print(is_completed)
+        infile.close()
+        print("Required Items:")
+        total_cost = 0
+        num_items = 0
         for i in range(0,len(shopping_items)):
-            print(i+1 ,". {}\t ${:.5} ({})".format(shopping_items[i],item_costs[i],priority_num[i]))
+            if is_completed[i] == "r":
+                print(i+1,". {}\t ${:.2f} ({})".format(shopping_items[i],item_costs[i],priority_num[i]))
+                total_cost = total_cost + item_costs[i]
+                num_items = num_items + 1
+
+        print("Total expected price for {} items : ${:.2f}".format(num_items,total_cost))
+        print(MENU)
+        choice = input("").upper()
     elif choice == "C":
-        print("TO DO")
+        infile = open("items.csv", "r")
+        for line in infile:
+            line = line.strip("\n")
+            items_list = line.split(',')
+            shopping_items.append(items_list[0])
+            item_costs.append(float(items_list[1]))
+            priority_num.append(int(items_list[2]))
+            is_completed.append(items_list[3])
+        infile.close()
+        print("Required Items:")
+        total_cost = 0
+        for i in range(0, len(shopping_items)):
+            if is_completed[i] == "r":
+                print(i + 1, ". {:15s} ${:6.2f} ({})".format(shopping_items[i], item_costs[i], priority_num[i]))
+                total_cost = total_cost + item_costs[i]
+                num_items = num_items + 1
+
+        print("Total expected price for {} items : ${:.2f}".format(num_items, total_cost))
+        print(MENU)
+        choice = input("").upper()
     elif choice == "A":
         print("TO DO")
     elif choice == "M":
