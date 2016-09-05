@@ -78,6 +78,7 @@ def add_items():
         print("Price must be >= $0")
         new_item_price = input("Price: "))
 
+
 def valid_string_check(user_input, variable_name):
     while len(user_input) == 0:
         print(variable_name + " cannot be blank")
