@@ -20,7 +20,7 @@ def  main():
         elif choice == "C":
             listed_items("Completed Items", "c")
         elif choice == "A":
-            print("TO DO")
+            add_items()
         elif choice == "M":
             print("TO DO")
         else:
@@ -37,7 +37,7 @@ def listed_items(list_title, status):
     print(list_title + ": ")
     for i in range(0, len(shopping_items)):
         if is_completed[i] == status.lower():
-            print(1, ". {}\t ${:.2f} ({})".format(shopping_items[i], item_costs[i], priority_num[i]))
+            print(i , ". {}\t ${:.2f} ({})".format(shopping_items[i], item_costs[i], priority_num[i]))
             total_cost = total_cost + item_costs[i]
             num_items = num_items + 1
     print(MENU)
@@ -50,34 +50,19 @@ def add_items():
     add_new_item = []
     new_item =  input("Item Name: ")
     new_item_name = valid_string_check(new_item,"Item Name")
-    valid_price = False
-    while valid_price == False:
-        new_item_price = input("Price: ")
-        try:
-            new_item_price = float(new_item_price)
-            new_item.append(new_item_price)
-            valid_price = True
-        except ValueError:
-            print("Invalid price. Please try again")
-    while new_item_price <= 0:
-        print("Price must be >= $0")
-        new_item_price = input("Price: ")
+    add_new_item.append(new_item_name)
 
+    new_item = input("Price: ")
+    new_item_price = valid_num_check(new_item, "Item Price")
+    add_new_item.append(new_item_price)
 
-    valid_priority = False
-    while valid_priority == False:
-        new_item_priority = input("Priority : ")
-        try:
-            new_item_priority = int(new_item_priority)
-            new_item.append(new_item_priority)
-            valid_priority = True
-        except ValueError:
-            print("OK")
+    new_item = input("Priority: ")
+    new_item_priority = valid_string_check(new_item, "Item Priority. Must be 1, 2 or 3.")
+    add_new_item.append(new_item_priority)
 
-    while new_item_price <= 0:
-        print("Price must be >= $0")
-        new_item_price = input("Price: "))
+    add_new_item.append('r')
 
+    right_to_file(add_new_item)
 
 def valid_string_check(user_input, variable_name):
     while len(user_input) == 0:
@@ -118,5 +103,11 @@ def read_file():
         is_completed.append(items_list[3])
     infile.close()
 
+def right_to_file(add_list):
+    outfile = open("items.csv", "a")
+    for i in add_list:
+        outfile.write(str(i)+ ',')
+    outfile.write("\n")
+    outfile.close()
 
 main()
