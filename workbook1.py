@@ -50,14 +50,17 @@ def add_items():
     add_new_item = []
     new_item =  input("Item Name: ")
     new_item_name = valid_string_check(new_item,"Item Name")
+    shopping_items.append(new_item_name)
     add_new_item.append(new_item_name)
 
     new_item = input("Price: ")
     new_item_price = valid_num_check(new_item, "Item Price")
+    item_costs.append(new_item_price)
     add_new_item.append(new_item_price)
 
-    new_item = input("Priority: ")
+    new_item = input("Priority Must be 1, 2 or 3: ")
     new_item_priority = valid_string_check(new_item, "Item Priority. Must be 1, 2 or 3.")
+    priority_num.append(new_item_priority)
     add_new_item.append(new_item_priority)
 
     add_new_item.append('r')
