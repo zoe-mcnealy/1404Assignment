@@ -84,6 +84,7 @@ def  main():
         print(MENU)
         choice= input("").upper()
     print('Your changes have been saved. Goodbye')
+    write_to_file()
 
 
 def print_listed_items(list_title, status):
@@ -93,7 +94,7 @@ def print_listed_items(list_title, status):
     print(list_title + ": ")
     for i in range(0, len(shopping_items)):
         if is_completed[i] == status.lower():
-            print(i , ". {:30s} ${:.2f} ({})".format(shopping_items[i], item_costs[i], priority_num[i]))
+            print(i , ". {:30s} ${:.2f} \t({})".format(shopping_items[i], item_costs[i], priority_num[i]))
             total_cost = total_cost + item_costs[i]
             num_items = num_items + 1
 
@@ -175,21 +176,23 @@ def read_file():
         is_completed.append(items_list[3])
     infile.close()
 
-#write to the csv file
-def write_to_file(add_list):
-    outfile = open("items.csv", "a")
-    for i in add_list:
-        outfile.write(str(i)+ ',')
-    outfile.write("\n")
+#write to the csv file after quitting
+def write_to_file():
+    outfile = open("items.csv", "w")
+    #for i in add_list:
+    #    outfile.write(str(i)+ ',')
+    #outfile.write("\n")
+    #outfile.close()
+    for i in range(0, len(shopping_items)):
+        outfile.write(( "{},{},{},{}\n".format(shopping_items[i], item_costs[i], priority_num[i], is_completed[i])))
     outfile.close()
 
-
-def sort_items():
+#def sort_items():
     #http://stackoverflow.com/questions/6618515/sorting-list-based-on-values-from-another-list
-    shopping_items = [si for p,si in sorted(zip(priority_num,shopping_items))]
-    item_costs = [ic for p,ic in sorted(zip(priority_num,item_costs))]
-    is_completed = [isc for p,isc in sorted(zip(priority_num,is_completed))]
-    priority_num = sorted(priority_num)
+#    shopping_items = [si for p,si in sorted(zip(priority_num,shopping_items))]
+#    item_costs = [ic for p,ic in sorted(zip(priority_num,item_costs))]
+#    is_completed = [isc for p,isc in sorted(zip(priority_num,is_completed))]
+#    priority_num = sorted(priority_num)
 
 
 main()
