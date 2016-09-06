@@ -31,8 +31,6 @@ def  main():
 
         choice= input("").upper()
 
-
-
 def listed_items(list_title, status):
     total_cost = 0
     num_items = 0
@@ -42,6 +40,7 @@ def listed_items(list_title, status):
             print(i , ". {}\t ${:.2f} ({})".format(shopping_items[i], item_costs[i], priority_num[i]))
             total_cost = total_cost + item_costs[i]
             num_items = num_items + 1
+
     print("Total expected price for {} items : ${:.2f}".format(num_items, total_cost))
 
 def add_items():
@@ -81,14 +80,6 @@ def valid_num_check(user_input, variable_name):
         print(variable_name + " must be >= $0")
         user_input = input(variable_name + ": ")
 
-def print_items():
-    print("Required Items:")
-    for i in range(0, len(shopping_items)):
-        if is_completed[i] == "r":
-            print(1, ". {}\t ${:.2f} ({})".format(shopping_items[i], item_costs[i], priority_num[i]))
-            total_cost = total_cost + item_costs[i]
-            num_items = num_items + 1
-
 def read_file():
     infile = open("items.csv", "r")
     for line in infile:
@@ -110,9 +101,9 @@ def right_to_file(add_list):
 def modify_status():
     listed_items("Required Items",'r')
     status_change= input("Enter the number of the item to mark as completed")
-    valid_num_check(status_change)
+    valid_num_check(status_change, "Status of the item")
     if status_change in shopping_items.index(status_change):
-        print("TO DO")
+        print("OK")
     else:
         print("NOPE")
 
