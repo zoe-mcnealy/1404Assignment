@@ -26,7 +26,9 @@ def  main():
         else:
             print("Invalid Choice. Please choose again.")
             choice = input(print(MENU))
+        print(item_costs)
         print(MENU)
+
         choice= input("").upper()
 
 
@@ -40,32 +42,24 @@ def listed_items(list_title, status):
             print(i , ". {}\t ${:.2f} ({})".format(shopping_items[i], item_costs[i], priority_num[i]))
             total_cost = total_cost + item_costs[i]
             num_items = num_items + 1
-    print(MENU)
-    choice = input("").upper()
-    return choice
     print("Total expected price for {} items : ${:.2f}".format(num_items, total_cost))
-    print(MENU)
 
 def add_items():
-    add_new_item = []
     new_item =  input("Item Name: ")
     new_item_name = valid_string_check(new_item,"Item Name")
     shopping_items.append(new_item_name)
-    add_new_item.append(new_item_name)
 
     new_item = input("Price: ")
     new_item_price = valid_num_check(new_item, "Item Price")
     item_costs.append(new_item_price)
-    add_new_item.append(new_item_price)
 
     new_item = input("Priority Must be 1, 2 or 3: ")
     new_item_priority = valid_string_check(new_item, "Item Priority. Must be 1, 2 or 3.")
     priority_num.append(new_item_priority)
-    add_new_item.append(new_item_priority)
 
-    add_new_item.append('r')
+    is_completed.append('r')
 
-    right_to_file(add_new_item)
+# this function is for the writing to the file  right_to_file(add_new_item)
 
 def valid_string_check(user_input, variable_name):
     while len(user_input) == 0:
@@ -112,5 +106,17 @@ def right_to_file(add_list):
         outfile.write(str(i)+ ',')
     outfile.write("\n")
     outfile.close()
+
+def modify_status():
+    listed_items("Required Items",'r')
+    status_change= input("Enter the number of the item to mark as completed")
+    valid_num_check(status_change)
+    if status_change in shopping_items.index(status_change):
+        print("TO DO")
+    else:
+        print("NOPE")
+
+
+
 
 main()
