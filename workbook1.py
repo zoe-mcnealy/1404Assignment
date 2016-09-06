@@ -5,7 +5,7 @@ priority_num = []
 is_completed = []
 MENU = "Please Choose and Option:\nR - List required items\nC - List completed Items\nA - Add a new item\nM - Mark an item as completed\nQ - Quit"
 
-
+#
 def  main():
     WELCOME_MENU = "Shopping List 1.0 - By Zoe McNealy"
     read_file()
@@ -22,7 +22,7 @@ def  main():
         elif choice == "A":
             add_items()
         elif choice == "M":
-            print("TO DO")
+            modify_status()
         else:
             print("Invalid Choice. Please choose again.")
             choice = input(print(MENU))
@@ -76,7 +76,7 @@ def valid_num_check(user_input, variable_name):
         except ValueError:
             print("Invalid entry. Please Try Again")
             user_input = input(variable_name + ": ")
-    while user_input <= 0:
+    while user_input < 0:
         print(variable_name + " must be >= $0")
         user_input = input(variable_name + ": ")
 
@@ -102,10 +102,11 @@ def modify_status():
     listed_items("Required Items",'r')
     status_change= input("Enter the number of the item to mark as completed")
     valid_num_check(status_change, "Status of the item")
-    if status_change in shopping_items.index(status_change):
+    if shopping_items.index(status_change) in shopping_items.index(status_change):
+        is_completed[status_change] = "c"
         print("OK")
     else:
-        print("NOPE")
+        print("fail.")
 
 
 
