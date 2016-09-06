@@ -47,7 +47,28 @@ modify_status
         if user input isn't found in the list
             display and error message and aske the user for input again.
 
-valid_string
+valid_string_check
+    get input passed into function
+        error check to make sure the input isn't blank
+        return valid string
+
+valid_num_check
+    get input passed into function
+        error check to make sure the input can be converted to a float
+            if not display an error message and ask for input again
+    error check to make sure the input if >= 0
+            if not display an error message and ask for input again
+    return valid int
+
+read_file
+    open file
+    import data from the csv file into various lists
+    close file
+
+write_file
+    open file and clear data
+    export lists into file
+    close file
 
 """
 
@@ -88,9 +109,9 @@ def  main():
 
 
 def print_listed_items(list_title, status):
+#print items in a formatted list
     total_cost = 0
     num_items = 0
-#    sort_items()
     print(list_title + ": ")
     for i in range(0, len(shopping_items)):
         if is_completed[i] == status.lower():
@@ -101,8 +122,8 @@ def print_listed_items(list_title, status):
 
     print("Total expected price for {} items : ${:.2f}".format(num_items, total_cost))
 
-#add a new item to various
 def add_items():
+# add a new item to various lists
     new_item =  input("Item Name: ")
     new_item_name = valid_string_check(new_item,"Item Name")
     shopping_items.append(new_item_name)
@@ -117,9 +138,8 @@ def add_items():
 
     is_completed.append('r')
 
-
-#modify the is_completed variable
 def modify_status():
+# modify the is_completed variable to make the item as complete
     valid_int = False
     while valid_int == False:
         print_listed_items("Required Items", 'r')
@@ -139,18 +159,16 @@ def modify_status():
         print_listed_items("Required Items", 'r')
         status_change = input("Enter the number of the item to mark as completed")
 
-
-
-#used to validate any str user_input
 def valid_string_check(user_input, variable_name):
+# used to validate any str user_input
     user_input = user_input.strip( )
     while len(user_input) == 0:
         print(variable_name + " cannot be blank")
         user_input = input("Please Try Again: ")
     return user_input
 
-#used to validate any int user_input
 def valid_num_check(user_input, variable_name):
+# used to validate any int user_input
     valid_num = False
     while valid_num == False:
         try:
@@ -164,8 +182,8 @@ def valid_num_check(user_input, variable_name):
         user_input = input(variable_name + ": ")
     return user_input
 
-#Open file and read data into various lists
 def read_file():
+# Open file and read data into various lists
     infile = open("items.csv", "r")
     for line in infile:
         line = line.strip("\n")
@@ -176,23 +194,13 @@ def read_file():
         is_completed.append(items_list[3])
     infile.close()
 
-#write to the csv file after quitting
 def write_to_file():
+# write to the csv file after quitting
     outfile = open("items.csv", "w")
-    #for i in add_list:
-    #    outfile.write(str(i)+ ',')
-    #outfile.write("\n")
-    #outfile.close()
     for i in range(0, len(shopping_items)):
         outfile.write(( "{},{},{},{}\n".format(shopping_items[i], item_costs[i], priority_num[i], is_completed[i])))
     outfile.close()
 
-#def sort_items():
-    #http://stackoverflow.com/questions/6618515/sorting-list-based-on-values-from-another-list
-#    shopping_items = [si for p,si in sorted(zip(priority_num,shopping_items))]
-#    item_costs = [ic for p,ic in sorted(zip(priority_num,item_costs))]
-#    is_completed = [isc for p,isc in sorted(zip(priority_num,is_completed))]
-#    priority_num = sorted(priority_num)
 
 
 main()
