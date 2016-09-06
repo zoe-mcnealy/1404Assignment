@@ -1,3 +1,53 @@
+"""Zoe McNealy  9 September 2016
+BREIF PROGRAM DETAILS
+LINK TO GitHub - https://github.com/zoe-mcnealy/1404Assignment
+
+PSEUDOCODE
+
+ Main Function
+    Call function to load file and input data into list
+    Display welcome
+    Display menu
+    get Input from user
+    While the user doesn't choose to quit.
+        If user chooses list required items
+            Call a function to list items
+        If user chooses list completed items
+            Call a function to list items
+        If user chooses to add another item
+            Call a function to get input from user and add it to the existing lists
+        If user chooses to modify the status of an item
+            Call a function to get input from user and modify the status of the specified item
+    If the user inputs none of these options, display an error message and ask for input again.
+
+listed_items
+    Goes through the list passed thought to the function
+    Check the require/completed variable for each item on your list
+    Print the items on the list with fit the require/completed variable which was passed into the function
+
+add_item
+    get item name from user
+        error check
+            call a string error checker
+        add this item to a list
+    get price from user
+        error check
+            call a float/int error checker function
+        add this num to a list
+    get priority from user
+        error check
+            call a float/int error checker function
+        add this num to a list
+    add status to list
+
+modify_status
+
+
+
+"""
+
+
+
 items_list = []
 shopping_items= []
 item_costs = []
@@ -31,6 +81,7 @@ def  main():
 
         choice= input("").upper()
 
+
 def listed_items(list_title, status):
     total_cost = 0
     num_items = 0
@@ -58,7 +109,15 @@ def add_items():
 
     is_completed.append('r')
 
-# this function is for the writing to the file  right_to_file(add_new_item)
+def modify_status():
+    listed_items("Required Items",'r')
+    status_change= input("Enter the number of the item to mark as completed")
+    valid_num_check(status_change, "Status of the item")
+    if status_change in  range(0, len(shopping_items)):
+        is_completed[status_change] = "c"
+        print("OK")
+    else:
+        print("fail. the user input wasn't in the range")
 
 def valid_string_check(user_input, variable_name):
     while len(user_input) == 0:
@@ -98,15 +157,7 @@ def right_to_file(add_list):
     outfile.write("\n")
     outfile.close()
 
-def modify_status():
-    listed_items("Required Items",'r')
-    status_change= input("Enter the number of the item to mark as completed")
-    valid_num_check(status_change, "Status of the item")
-    if shopping_items.index(status_change) in shopping_items.index(status_change):
-        is_completed[status_change] = "c"
-        print("OK")
-    else:
-        print("fail.")
+
 
 
 
