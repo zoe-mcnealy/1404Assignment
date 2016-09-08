@@ -72,16 +72,8 @@ write_file
 
 """
 
-
-
-shopping_items= []
-item_costs = []
-priority_num = []
-is_completed = []
-MENU = "Please Choose and Option:\nR - List required items\nC - List completed Items\nA - Add a new item\nM - Mark an item as completed\nQ - Quit"
-
-
 def  main():
+    MENU = "Please Choose and Option:\nR - List required items\nC - List completed Items\nA - Add a new item\nM - Mark an item as completed\nQ - Quit"
     WELCOME_MENU = "Shopping List 1.0 - By Zoe McNealy"
     lists = read_file()
     print(WELCOME_MENU)
