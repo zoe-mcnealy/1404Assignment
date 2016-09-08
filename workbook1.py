@@ -74,7 +74,6 @@ write_file
 
 
 
-items_list = []
 shopping_items= []
 item_costs = []
 priority_num = []
@@ -84,7 +83,7 @@ MENU = "Please Choose and Option:\nR - List required items\nC - List completed I
 
 def  main():
     WELCOME_MENU = "Shopping List 1.0 - By Zoe McNealy"
-    read_file()
+    lists = read_file()
     print(WELCOME_MENU)
     print(MENU)
     choice = input("").upper()
@@ -92,69 +91,70 @@ def  main():
     while choice != "Q":
 
         if choice == "R":
-            print_listed_items ("Required Items", "r")
+            print_listed_items (lists,"Required Items", "r")
         elif choice == "C":
-            print_listed_items("Completed Items", "c")
+            print_listed_items(lists,"Completed Items", "c")
         elif choice == "A":
-            add_items()
+            add_items(lists)
         elif choice == "M":
-            modify_status()
+            modify_status(lists)
         else:
             print("Invalid Choice. Please choose again.")
 
         print(MENU)
         choice= input("").upper()
     print('Your changes have been saved. Goodbye')
-    write_to_file()
+    write_to_file(lists)
 
 
-def print_listed_items(list_title, status):
+def print_listed_items(lists,list_title, status):
 #print items in a formatted list
     total_cost = 0
     num_items = 0
     print(list_title + ": ")
-    for i in range(0, len(shopping_items)):
-        if is_completed[i] == status.lower():
-            print(i , ". {:30s} ${:.2f} \t({})".format(shopping_items[i], item_costs[i], priority_num[i]))
-            total_cost = total_cost + item_costs[i]
+    for i in range(0, len(lists["names"])):
+        if lists["status"][i] == status.lower():
+            print(i , ". {:30s} ${:.2f} \t({})".format(lists["names"][i], lists["costs"][i], lists["priority"][i]))
+            total_cost = total_cost + lists["costs"][i]
             num_items = num_items + 1
 
 
     print("Total expected price for {} items : ${:.2f}".format(num_items, total_cost))
 
-def add_items():
+def add_items(lists):
 # add a new item to various lists
     new_item =  input("Item Name: ")
     new_item_name = valid_string_check(new_item,"Item Name")
-    shopping_items.append(new_item_name)
+    lists["names"].append(new_item_name)
 
     new_item = input("Price: ")
     new_item_price = valid_num_check(new_item, "Item Price")
-    item_costs.append(new_item_price)
+    lists["costs"].append(new_item_price)
 
     new_item = input("Priority Must be 1, 2 or 3: ")
     new_item_priority = valid_string_check(new_item, "Item Priority. Must be 1, 2 or 3.")
-    priority_num.append(new_item_priority)
+    lists["priority"].append(new_item_priority)
 
-    is_completed.append('r')
+    lists["status"].append('r')
 
-def modify_status():
+def modify_status(lists):
 # modify the is_completed variable to make the item as complete
     valid_int = False
     while valid_int == False:
-        print_listed_items("Required Items", 'r')
+        print_listed_items(lists,"Required Items", 'r')
         status_change = input("Enter the number of the item to mark as completed")
         try:
             status_change = int(status_change)
-            if status_change < len(shopping_items) and status_change >= 0:
-                is_completed[int(status_change)] = 'c'
+            if status_change < len(lists["names"]) and status_change >= 0:
+                lists["status"][int(status_change)] = 'c'
                 valid_int = True
+                print("Status Changed")
             else:
                 print("Invalid number entered. Please try again")
         except ValueError:
              print("That is not a number. Please try again")
 
-    while int(status_change) > len(shopping_items):
+    while int(status_change) > len(lists["names"]):
         print("Invalid option. Please try again")
         print_listed_items("Required Items", 'r')
         status_change = input("Enter the number of the item to mark as completed")
@@ -184,21 +184,25 @@ def valid_num_check(user_input, variable_name):
 
 def read_file():
 # Open file and read data into various lists
+    lists = {"names": [], "costs": [], "priority": [], "status": []}
+    items_list = []
     infile = open("items.csv", "r")
     for line in infile:
         line = line.strip("\n")
         items_list = line.split(',')
-        shopping_items.append(items_list[0])
-        item_costs.append(float(items_list[1]))
-        priority_num.append(int(items_list[2]))
-        is_completed.append(items_list[3])
+        lists["names"].append(items_list[0])
+        lists["costs"].append(float(items_list[1]))
+        lists["priority"].append(int(items_list[2]))
+        lists["status"].append(items_list[3])
     infile.close()
+    return lists
 
-def write_to_file():
+
+def write_to_file(lists):
 # write to the csv file after quitting
     outfile = open("items.csv", "w")
-    for i in range(0, len(shopping_items)):
-        outfile.write(( "{},{},{},{}\n".format(shopping_items[i], item_costs[i], priority_num[i], is_completed[i])))
+    for i in range(0, len(lists["names"])):
+        outfile.write(( "{},{},{},{}\n".format(lists["names"][i], lists["costs"][i], lists["priority"][i], lists["status"][i])))
     outfile.close()
 
 
